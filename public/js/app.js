@@ -2009,15 +2009,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2027,7 +2018,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       filter: {
-        statusSelected: '',
+        selectedStatus: '',
         selected: null,
         selectedDate: '',
         title: ''
@@ -38502,52 +38493,6 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "title" } }, [
-                      _vm._v("Название")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.filter.title,
-                          expression: "filter.title"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", id: "title" },
-                      domProps: { value: _vm.filter.title },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.filter, "title", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("multiselect", {
-                        attrs: { multiple: true, options: _vm.options },
-                        model: {
-                          value: _vm.filter.selected,
-                          callback: function($$v) {
-                            _vm.$set(_vm.filter, "selected", $$v)
-                          },
-                          expression: "filter.selected"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
                   _c(
                     "div",
                     { staticClass: "form-group" },
@@ -38561,11 +38506,11 @@ var render = function() {
                           name: "statusses"
                         },
                         model: {
-                          value: _vm.filter.statusSelected,
+                          value: _vm.filter.selectedStatus,
                           callback: function($$v) {
-                            _vm.$set(_vm.filter, "statusSelected", $$v)
+                            _vm.$set(_vm.filter, "selectedStatus", $$v)
                           },
-                          expression: "filter.statusSelected"
+                          expression: "filter.selectedStatus"
                         }
                       })
                     ],

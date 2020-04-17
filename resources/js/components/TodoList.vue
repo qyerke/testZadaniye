@@ -40,18 +40,9 @@
         </div>
         <div class="modal-body">
             <form>
-                <div class="form-group">
-                <label for="title">Название</label>
-                <input type="text" class="form-control" id="title" v-model="filter.title">
-            </div>
-
-            <div class="form-group">
-            <multiselect v-model="filter.selected" :multiple="true" :options="options"></multiselect>
-            </div>
-
             <div class="form-group">
             <label for="">Статус</label>
-            <multiselect v-model="filter.statusSelected" :multiple="true" :options="statusses" name="statusses"></multiselect>
+            <multiselect v-model="filter.selectedStatus" :multiple="true" :options="statusses" name="statusses"></multiselect>
             </div>
 
             <div class="form-group">
@@ -79,7 +70,7 @@ import axios from 'axios'
         data() {
             return {
             filter: {           
-                statusSelected: '',
+                selectedStatus: '',
                 selected: null,
                 selectedDate: '',
                 title: '',

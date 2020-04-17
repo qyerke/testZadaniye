@@ -26,14 +26,14 @@ class TaskController extends Controller
     public function search(Request $request)
     {
         
-        if($request['selectedDate'] and $request['statusSelected']){
+        if($request['selectedDate'] and $request['selectedStatus']){
             $arr = Task::query()
             ->whereDate('deadline', '>', $request['selectedDate'])
-            ->where('status', '=', $request['statusSelected'])
+            ->where('status', '=', $request['selectedStatus'])
             ->get();
         } if (!$request['selectedDate']){
-            $arr = Task::query()->where('status', '=', $request['statusSelected'])->get();
-        } if (!$request['statusSelected']){
+            $arr = Task::query()->where('status', '=', $request['selectedStatus'])->get();
+        } if (!$request['selectedStatus']){
             $arr = Task::query()->where('status', '=', $request['selectedDate'])->get();
         }
         return response()->json($arr);

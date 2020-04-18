@@ -20,5 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/tasks', 'TaskController@index');
 Route::get('/taskStatuses', 'TaskController@taskStatuses');
+Route::get('/getOwners', 'TaskController@getOwners');
+Route::get('/getUsers', 'TaskController@getUsers');
 Route::post('/search', 'TaskController@search');
 

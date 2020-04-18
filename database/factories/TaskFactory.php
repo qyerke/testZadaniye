@@ -10,6 +10,7 @@ $factory->define(Task::class, function (Faker $faker) {
             'user_id' => function() {
                 return factory(App\User::class)->create()->id;
             },
+            'responsible_persons' => $faker->numberBetween($min = 1, $max = 10),
             'title' => $faker->sentence(5),
             'status' => $faker->randomElement($array = array ('Не Выполненные','Ждет Выполненния','Выполненные')),
             'deadline' => $faker->dateTimeBetween('now', '+1 month'),

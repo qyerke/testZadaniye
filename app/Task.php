@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
@@ -10,11 +11,6 @@ class Task extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
-    }
-
-    public function statuses()
-    {
-        return $this->belongsToMany('App\Status', 'status_task');
+        return $this->belongsTo(User::class);
     }
 }

@@ -2009,6 +2009,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2021,17 +2037,22 @@ __webpack_require__.r(__webpack_exports__);
         selectedStatus: '',
         selected: null,
         selectedDate: '',
-        title: ''
+        title: '',
+        selectedOwner: '',
+        selectedUsers: '',
+        selectedTitle: ''
       },
       statusses: [],
       options: [],
       todos: [],
       title: '',
-      search: ''
+      search: '',
+      owners: [],
+      users: []
     };
   },
   mounted: function mounted() {
-    this.getTasks(), this.getStatuses();
+    this.getTasks(), this.getStatuses(), this.getOwners(), this.getUsers();
   },
   methods: {
     getTasks: function getTasks() {
@@ -2039,7 +2060,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tasks').then(function (result) {
         _this.todos = result.data;
-        console.log(_this.todos);
       });
     },
     getStatuses: function getStatuses() {
@@ -2049,21 +2069,39 @@ __webpack_require__.r(__webpack_exports__);
         _this2.statusses = result.data;
       });
     },
-    sendForm: function sendForm() {
+    getOwners: function getOwners() {
       var _this3 = this;
 
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/getOwners').then(function (result) {
+        _this3.owners = result.data;
+      });
+    },
+    getUsers: function getUsers() {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/getUsers').then(function (result) {
+        _this4.users = result.data;
+      });
+    },
+    sendForm: function sendForm() {
+      var _this5 = this;
+
+      console.log(this.filter);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/search', this.filter).then(function (result) {
-        _this3.todos = result.data;
         console.log(result.data);
+        _this5.todos = result.data;
+        $('#exampleModal').modal('hide');
       });
     }
   },
   computed: {
     filteredList: function filteredList() {
-      var _this4 = this;
+      var _this6 = this;
 
       return this.todos.filter(function (todo) {
-        return todo.title.toLowerCase().includes(_this4.search.toLowerCase());
+        //this.filter.owner = todo.user.name
+        console.log(todo);
+        return todo.title.toLowerCase().includes(_this6.search.toLowerCase());
       });
     }
   }
@@ -38493,6 +38531,107 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "title" } }, [
+                      _vm._v("Example textarea")
+                    ]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.filter.selectedTitle,
+                          expression: "filter.selectedTitle"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "title", rows: "2", name: "title" },
+                      domProps: { value: _vm.filter.selectedTitle },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.filter,
+                            "selectedTitle",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", [_vm._v("Постановщик")]),
+                      _vm._v(" "),
+                      _c(
+                        "multiselect",
+                        {
+                          attrs: {
+                            "track-by": "name",
+                            label: "name",
+                            placeholder: "Select one",
+                            options: _vm.owners,
+                            searchable: false,
+                            "allow-empty": false,
+                            name: "selectedOwner"
+                          },
+                          model: {
+                            value: _vm.filter.selectedOwner,
+                            callback: function($$v) {
+                              _vm.$set(_vm.filter, "selectedOwner", $$v)
+                            },
+                            expression: "filter.selectedOwner"
+                          }
+                        },
+                        [[_c("strong", [_vm._v(_vm._s(_vm.owners.name))])]],
+                        2
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Ответственный")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "multiselect",
+                        {
+                          attrs: {
+                            multiple: true,
+                            "track-by": "name",
+                            label: "name",
+                            placeholder: "Select one",
+                            options: _vm.users,
+                            searchable: false,
+                            "allow-empty": false,
+                            name: "selectedUsers"
+                          },
+                          model: {
+                            value: _vm.filter.selectedUsers,
+                            callback: function($$v) {
+                              _vm.$set(_vm.filter, "selectedUsers", $$v)
+                            },
+                            expression: "filter.selectedUsers"
+                          }
+                        },
+                        [[_c("strong", [_vm._v(_vm._s(_vm.users.name))])]],
+                        2
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
                   _c(
                     "div",
                     { staticClass: "form-group" },
@@ -38501,9 +38640,8 @@ var render = function() {
                       _vm._v(" "),
                       _c("multiselect", {
                         attrs: {
-                          multiple: true,
                           options: _vm.statusses,
-                          name: "statusses"
+                          name: "selectedStatus"
                         },
                         model: {
                           value: _vm.filter.selectedStatus,

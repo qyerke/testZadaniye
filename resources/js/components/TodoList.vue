@@ -41,10 +41,26 @@
         <div class="modal-body">
             <form>
             <div class="form-group">
-            <label for="">Статус</label>
-            <multiselect v-model="filter.selectedStatus" :multiple="true" :options="statusses" name="statusses"></multiselect>
+                <label for="title">Example textarea</label>
+                <textarea class="form-control" id="title" rows="2" name="title" v-model="filter.selectedTitle"></textarea>
             </div>
-
+            <div class="form-group">
+            <label >Постановщик</label>
+            <multiselect v-model="filter.selectedOwner" track-by="name" label="name" placeholder="Select one" :options="owners" :searchable="false" :allow-empty="false"  name="selectedOwner">
+                <template ><strong>{{ owners.name }}</strong> </template>
+            </multiselect>
+            </div>
+            <div class="form-group">
+            <label for="">Ответственный</label>
+            <multiselect v-model="filter.selectedUsers" :multiple="true" track-by="name" label="name" placeholder="Select one" :options="users" :searchable="false" :allow-empty="false" name="selectedUsers">
+                <template ><strong>{{ users.name }}</strong> </template>
+            </multiselect>
+            </div>
+            <div class="form-group">
+            <label for="">Статус</label>
+            <multiselect v-model="filter.selectedStatus" :options="statusses" name="selectedStatus">
+            </multiselect>
+            </div>
             <div class="form-group">
             <label for="example-date-input" class="col-2 col-form-label">Date</label>
             <div class="col-10">
@@ -74,29 +90,33 @@ import axios from 'axios'
                 selected: null,
                 selectedDate: '',
                 title: '',
+                selectedOwner: '',
+                selectedUsers: '',
+                selectedTitle: ''
             },
             statusses: [],
             options: [],
             todos: [],
             title: '',
             search: '',
+            owners: [],
+            users: [],
             }
         },
         mounted() {
            this.getTasks(),
-           this.getStatuses()
+           this.getStatuses(),
+           this.getOwners(),
+           this.getUsers()
         },
-       
         methods: {
             getTasks() {
                 axios.get('/api/tasks').then(
                     result => {
                         this.todos = result.data
-                        console.log(this.todos)
                     }
                 )
-            },
-           
+            }, 
             getStatuses() {
                 axios.get('/api/taskStatuses').then(
                      result => {
@@ -104,18 +124,37 @@ import axios from 'axios'
                     }
                 )
             },
+            getOwners(){
+               axios.get('/api/getOwners').then(
+                     result => {
+                        this.owners = result.data
+                    }
+                )     
+            },
+            getUsers(){
+               axios.get('/api/getUsers').then(
+                     result => {
+                        this.users = result.data
+                    }
+                )     
+            },
             sendForm(){
+                console.log(this.filter)
                 axios.post('/api/search', this.filter).then(
                      result => {
+                         console.log(result.data)
                          this.todos = result.data
-                        console.log(result.data)
+                         $('#exampleModal').modal('hide');
                     })
             },
         },
         computed: {
             filteredList() {
             return this.todos.filter(todo => {
+                //this.filter.owner = todo.user.name
+                console.log(todo)
                 return todo.title.toLowerCase().includes(this.search.toLowerCase())
+                
             })
         }
         },

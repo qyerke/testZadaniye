@@ -2095,17 +2095,19 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.filter);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/search', this.filter).then(function (result) {
         _this5.todos = result.data;
-        _this5.reset;
+
+        _this5.reset();
+
         $('#exampleModal').modal('hide');
       });
     },
     reset: function reset() {
       this.filter = [{
-        selectedStatus: '',
-        selectedDate: '',
-        selectedOwner: '',
-        selectedUsers: '',
-        selectedTitle: ''
+        selectedStatus: null,
+        selectedDate: null,
+        selectedOwner: null,
+        selectedUsers: null,
+        selectedTitle: null
       }];
     }
   },

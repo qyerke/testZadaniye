@@ -149,21 +149,21 @@ import axios from 'axios'
                 axios.post('/api/search', this.filter).then(
                      result => {
                          this.todos = result.data
-                         this.reset
+                         this.reset()
                          $('#exampleModal').modal('hide');
                     })
             },
             reset () {
                         this.filter =  [
                             {
-                               selectedStatus: '',
-                                selectedDate: '',
-                                selectedOwner: '',
-                                selectedUsers: '',
-                                selectedTitle: ''
+                               selectedStatus: null,
+                                selectedDate: null,
+                                selectedOwner: null,
+                                selectedUsers: null,
+                                selectedTitle: null
                             }
                         ]
-                    }
+            },
         },
         computed: {
             filteredList() {

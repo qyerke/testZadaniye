@@ -2025,6 +2025,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2035,9 +2042,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       filter: {
         selectedStatus: '',
-        selected: null,
         selectedDate: '',
-        title: '',
         selectedOwner: '',
         selectedUsers: '',
         selectedTitle: ''
@@ -2067,6 +2072,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/taskStatuses').then(function (result) {
         _this2.statusses = result.data;
+        console.log(_this2.statusses);
       });
     },
     getOwners: function getOwners() {
@@ -2088,10 +2094,19 @@ __webpack_require__.r(__webpack_exports__);
 
       console.log(this.filter);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/search', this.filter).then(function (result) {
-        console.log(result.data);
         _this5.todos = result.data;
+        _this5.reset;
         $('#exampleModal').modal('hide');
       });
+    },
+    reset: function reset() {
+      this.filter = [{
+        selectedStatus: '',
+        selectedDate: '',
+        selectedOwner: '',
+        selectedUsers: '',
+        selectedTitle: ''
+      }];
     }
   },
   computed: {
@@ -38533,7 +38548,7 @@ var render = function() {
                 _c("form", [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "title" } }, [
-                      _vm._v("Example textarea")
+                      _vm._v("Название")
                     ]),
                     _vm._v(" "),
                     _c("textarea", {
@@ -38608,6 +38623,7 @@ var render = function() {
                         "multiselect",
                         {
                           attrs: {
+                            taggable: true,
                             multiple: true,
                             "track-by": "name",
                             label: "name",
@@ -38640,6 +38656,8 @@ var render = function() {
                       _vm._v(" "),
                       _c("multiselect", {
                         attrs: {
+                          multiple: true,
+                          placeholder: "Select one",
                           options: _vm.statusses,
                           name: "selectedStatus"
                         },
@@ -38748,7 +38766,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Modal title")]
+        [_vm._v("Filter Form")]
       ),
       _vm._v(" "),
       _c(

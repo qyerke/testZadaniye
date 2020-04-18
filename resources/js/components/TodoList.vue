@@ -33,39 +33,46 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Filter Form</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
             <form>
+
             <div class="form-group">
-                <label for="title">Example textarea</label>
+                <label for="title">Название</label>
                 <textarea class="form-control" id="title" rows="2" name="title" v-model="filter.selectedTitle"></textarea>
             </div>
+
             <div class="form-group">
             <label >Постановщик</label>
             <multiselect v-model="filter.selectedOwner" track-by="name" label="name" placeholder="Select one" :options="owners" :searchable="false" :allow-empty="false"  name="selectedOwner">
                 <template ><strong>{{ owners.name }}</strong> </template>
             </multiselect>
             </div>
+
             <div class="form-group">
             <label for="">Ответственный</label>
-            <multiselect v-model="filter.selectedUsers" :multiple="true" track-by="name" label="name" placeholder="Select one" :options="users" :searchable="false" :allow-empty="false" name="selectedUsers">
+            <multiselect v-model="filter.selectedUsers"  :taggable="true" :multiple="true" track-by="name" label="name" placeholder="Select one" :options="users" :searchable="false" :allow-empty="false" name="selectedUsers">
                 <template ><strong>{{ users.name }}</strong> </template>
             </multiselect>
             </div>
-            <div class="form-group">
+
+           <div class="form-group">
             <label for="">Статус</label>
-            <multiselect v-model="filter.selectedStatus" :options="statusses" name="selectedStatus">
+            <multiselect v-model="filter.selectedStatus"   :multiple="true"  placeholder="Select one" :options="statusses"  name="selectedStatus">
             </multiselect>
             </div>
+ 
+
             <div class="form-group">
             <label for="example-date-input" class="col-2 col-form-label">Date</label>
             <div class="col-10">
                 <input class="form-control" type="date" id="example-date-input" name="date" v-model="filter.selectedDate">
             </div>
+
             </div>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" v-on:click="sendForm">Save changes</button>
@@ -87,9 +94,7 @@ import axios from 'axios'
             return {
             filter: {           
                 selectedStatus: '',
-                selected: null,
                 selectedDate: '',
-                title: '',
                 selectedOwner: '',
                 selectedUsers: '',
                 selectedTitle: ''
@@ -121,6 +126,7 @@ import axios from 'axios'
                 axios.get('/api/taskStatuses').then(
                      result => {
                         this.statusses = result.data
+                        console.log(this.statusses)
                     }
                 )
             },
@@ -142,11 +148,22 @@ import axios from 'axios'
                 console.log(this.filter)
                 axios.post('/api/search', this.filter).then(
                      result => {
-                         console.log(result.data)
                          this.todos = result.data
+                         this.reset
                          $('#exampleModal').modal('hide');
                     })
             },
+            reset () {
+                        this.filter =  [
+                            {
+                               selectedStatus: '',
+                                selectedDate: '',
+                                selectedOwner: '',
+                                selectedUsers: '',
+                                selectedTitle: ''
+                            }
+                        ]
+                    }
         },
         computed: {
             filteredList() {

@@ -22,7 +22,7 @@ class TaskController extends Controller
     {
         $arr = Task::all()->pluck('status')->toArray();
         $arr = array_unique($arr);
-        return response()->json($arr);
+        return response()->json(array_values($arr));
     }
     public function search(Request $request)
     {
